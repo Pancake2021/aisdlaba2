@@ -1,13 +1,16 @@
 #ifndef header_h
 #define header_h
 
-
+////
 #include <iostream>
 #include <complex>
-class Vector
+
+
+template <class T>
+class
 {
 private:
-    float* data;
+    T* data;
     size_t size;
     size_t capacity;
     size_t grow_size;
@@ -19,7 +22,7 @@ public:
         grow_size = 10;
         this->size = size;
         capacity = size + grow_size;
-        data = new float[capacity];
+        data = new T[capacity];
         for (size_t i = 0; i < capacity; i++)
         {
             data[i] = 0;
@@ -29,41 +32,46 @@ public:
     Vector(const Vector& rhs);
     void Clear();
     size_t GetSize() const;
-    const float* GetData() const;
+    const T* GetData() const;
     void Print() const;
     void Pif() const;
-    void PushBack(const float& value);
-    void Insert(const float& value, const size_t index);
+    void PushBack(const T& value);
+    void Insert(const T& value, const size_t index);
     void Erase(const size_t index);
-    Vector& operator=(const Vector& rhs);
-    float& operator[] (const size_t index);
-    float operator[](const size_t index) const;
-    Vector& operator+= (const Vector& rhs);
-    Vector operator+(const Vector& rhs) const;
-    Vector& operator-= (const Vector& rhs);
-    Vector operator-(const Vector& rhs) const;
-    float DotProduct(const Vector& rhs) const
+    Vector <T> & operator=(const Vector <T> & rhs);
+    T& operator[] (const size_t index);
+    T operator[](const size_t index) const;
+    Vector <T> & operator+= (const Vector <T> & rhs);
+    Vector operator+(const Vector <T> & rhs) const;
+    Vector <T> & operator-= (const Vector <T> & rhs);
+    Vector operator-(const Vector <T> & rhs) const;
+    
+    
+    
+    
+    T DotProduct(const Vector <T> & rhs) const
     {
-        if (size != rhs.size) throw "Bad dimensions";
-        float scalar_product = 0;
+        if (size != rhs.size) throw "Bad dimensions,change that";
+        float scalar = 0;
         for (size_t i = 0; i < size; i++)
         {
-            scalar_product += data[i] * rhs.data[i];
+            //scalar += data[i] * rhs.data[i];
+            scalar = scalar + data[i] * rhs.data[i];
         }
-        return scalar_product;
+        return scalar;
     }
     
     float duct(const Vector& rhs) const
     {
         if (size != rhs.size) throw "Bad dimensions";
-        float scalar_product = 0;
+        float scalar = 0;
        // float s = 0;
         for (size_t i = 0; i < size; i++)
         {
-            scalar_product += data[i] * rhs.data[i];
+            scalar += data[i] * rhs.data[i];
             
         }
-        return scalar_product;
+        return scalar;
     }
     
     
