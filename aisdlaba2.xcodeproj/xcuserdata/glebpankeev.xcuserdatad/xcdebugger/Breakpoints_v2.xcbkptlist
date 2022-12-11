@@ -14,8 +14,8 @@
             filePath = "aisdlaba2/header.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
             landmarkName = "operator*=(value, rhs)"
             landmarkType = "9">
          </BreakpointContent>
