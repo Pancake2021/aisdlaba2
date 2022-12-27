@@ -36,6 +36,7 @@ public:
     }
     ~Vector() { delete[] data; }
     Vector(const Vector<T>& rhs);
+    //Обьявление методов
     void Clear();
     size_t GetSize() const;
     const T* GetData() const;
@@ -43,13 +44,22 @@ public:
     void PushBack(const T& value);
     void Insert(const T& value, const size_t index);
     void Erase(const size_t index);
+    //Обьявление Операторов
     Vector<T>& operator=(const Vector<T>& rhs);
     T& operator[] (const size_t index);
     T operator[](const size_t index) const;
-    Vector<T>& operator+= (const Vector<T>& rhs);
+    Vector<T>& operator+= (const Vector<T>& rhs); //
     Vector operator+(const Vector<T>& rhs) const;
     Vector<T>& operator-= (const Vector<T>& rhs);
     Vector operator-(const Vector<T>& rhs) const;
+    Vector<T>& operator*=(const T& value);
+    Vector operator*(const T& value) const;
+    Vector<T>& operator/=(const T& value);
+    Vector operator/(const T& value) const;
+    bool operator==(const Vector<T>& rhs) const;
+    bool operator!=(const Vector<T>& rhs) const;
+  
+    
     T DotProduct(const Vector<T>& rhs) const
     {
         if (size != rhs.size) throw "Bad dimensions";
@@ -60,33 +70,21 @@ public:
         }
         return scalar_product;
     }
-    Vector<T>& operator*=(const T& value);
-    Vector operator*(const T& value) const;
-    Vector<T>& operator/=(const T& value);
-    Vector operator/(const T& value) const;
-    bool operator==(const Vector<T>& rhs) const;
-    bool operator!=(const Vector<T>& rhs) const;
-    
-    float duct(const Vector& rhs) const
-       {
-           if (size != rhs.size) throw "Bad dimensions";
-           float scalar_product = 0;
-          // float s = 0;
-           for (size_t i = 0; i < size; i++)
-           {
-               scalar_product += data[i] * rhs.data[i];
-               
-           }
-           return scalar_product;
-       }
-
 };
 template<class T>
 Vector<T> & operator*=(const T& value, Vector<T>& rhs);
 template<class T>
 Vector<T> operator*(const T& value, const Vector<T>& rhs);
 template<class T>
+Vector<T> operator*(const T& value, const Vector<T>& rhs);
+template<class T>
 std::ostream& operator<< (std::ostream& out, const Vector<T>& vector);
+
+
+
+
+
+
 template<>
 std::complex<float> Vector<std::complex<float>>::DotProduct(const Vector<std::complex<float>>& rhs) const
 {
@@ -98,6 +96,10 @@ std::complex<float> Vector<std::complex<float>>::DotProduct(const Vector<std::co
     }
     return scalar_product;
 }
+
+
+
+
 template<>
 std::complex<double> Vector<std::complex<double>>::DotProduct(const Vector<std::complex<double>>& rhs) const
 {
@@ -113,7 +115,7 @@ std::complex<double> Vector<std::complex<double>>::DotProduct(const Vector<std::
 }
 
 template<class T>
-double multiple(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2)
+double DotShape(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2)
 {
    // if (v1.GetSize() != v2.GetSize()) throw std::exception("Size doesn't match");
     std::complex<double> result(0, 0);
@@ -155,6 +157,12 @@ void Vector<T>::ExpandCapacityByN(const size_t n, const size_t index, const bool
     data = new_data;
     capacity = new_capacity;
 }
+
+
+
+
+
+
 template<class T>
 void Vector<T>::Insert(const T& value, const size_t index)
 {
@@ -176,6 +184,10 @@ void Vector<T>::Insert(const T& value, const size_t index)
         size++;
     }
 }
+
+
+
+
 template<class T>
 Vector<T>::Vector(const Vector<T>& rhs) :size(rhs.size), capacity(rhs.capacity)
 {
@@ -195,6 +207,11 @@ Vector<T>::Vector(const Vector<T>& rhs) :size(rhs.size), capacity(rhs.capacity)
         grow_size = 10;
     }
 }
+
+
+
+
+
 template<class T>
 void Vector<T>::Clear()
 {
@@ -203,16 +220,29 @@ void Vector<T>::Clear()
     size = 0;
     capacity = 0;
 }
+
+
+
+
+
+
 template<class T>
 size_t Vector<T>::GetSize() const
 {
     return size;
 }
+
+
+
 template <class T>
 const T* Vector<T>::GetData() const
 {
     return data;
 }
+
+
+
+
 template<class T>
 void Vector<T>::Print() const
 {
@@ -228,6 +258,13 @@ void Vector<T>::Print() const
     }
     std::cout << data[size - 1] << "] , the size of vector:" << size << std::endl;
 }
+
+
+
+
+
+
+
 template<class T>
 void Vector<T>::PushBack(const T& value)
 {
@@ -245,6 +282,9 @@ void Vector<T>::PushBack(const T& value)
         size++;
     }
 }
+
+
+
 template<class T>
 Vector<T>& Vector<T>::operator=(const Vector<T>& rhs)
 {
@@ -270,6 +310,10 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& rhs)
     capacity = rhs.capacity;
     return *this;
 }
+
+
+
+
 template<class T>
 void Vector<T>::Erase(const size_t index)
 {
@@ -281,18 +325,26 @@ void Vector<T>::Erase(const size_t index)
     }
     size--;
 }
+
+
+
 template<class T>
-T& Vector<T>::operator[] (const size_t index)
+T& Vector<T>::operator[] (const size_t index) 
 {
     if (index >= size) throw std::out_of_range("Index is out of range");
     return data[index];
 }
+
+
+
 template<class T>
 T Vector<T>::operator[](const size_t index) const
 {
     if (index >= size) throw std::out_of_range("Index is out of range");
     return data[index];
 }
+
+
 template<class T>
 Vector<T>& Vector<T>::operator+= (const Vector<T>& rhs)
 {
@@ -303,6 +355,9 @@ Vector<T>& Vector<T>::operator+= (const Vector<T>& rhs)
     }
     return *this;
 }
+
+
+
 template<class T>
 Vector<T> Vector<T>::operator+(const Vector<T>& rhs) const
 {
@@ -311,6 +366,8 @@ Vector<T> Vector<T>::operator+(const Vector<T>& rhs) const
     result += rhs;
     return result;
 }
+
+
 template<class T>
 Vector<T>& Vector<T>::operator-= (const Vector<T>& rhs)
 {
@@ -321,6 +378,9 @@ Vector<T>& Vector<T>::operator-= (const Vector<T>& rhs)
     }
     return *this;
 }
+
+
+
 template<class T>
 Vector<T> Vector<T>::operator-(const Vector<T>& rhs) const
 {
@@ -329,6 +389,9 @@ Vector<T> Vector<T>::operator-(const Vector<T>& rhs) const
     result -= rhs;
     return result;
 }
+
+
+
 template<class T>
 Vector<T>& Vector<T>::operator*=(const T& value)
 {
@@ -338,6 +401,8 @@ Vector<T>& Vector<T>::operator*=(const T& value)
     }
     return *this;
 }
+
+
 template<class T>
 Vector<T> Vector<T>::operator*(const T& value) const
 {
@@ -345,6 +410,9 @@ Vector<T> Vector<T>::operator*(const T& value) const
     result *= value;
     return result;
 }
+
+
+
 template<class T>
 Vector<T>& Vector<T>::operator/=(const T& value)
 {
@@ -355,6 +423,9 @@ Vector<T>& Vector<T>::operator/=(const T& value)
     }
     return *this;
 }
+
+
+
 template<class T>
 Vector<T> Vector<T>::operator/(const T& value) const
 {
@@ -362,16 +433,29 @@ Vector<T> Vector<T>::operator/(const T& value) const
     result /= value;
     return result;
 }
+
+
 template<class T>
 bool Vector<T>::operator==(const Vector<T>& rhs) const
 {
     if (size != rhs.size) return false;
     for (size_t i = 0; i < size; i++)
     {
-        if (abs(data[i] - rhs.data[i]) > 0) return false; ///////
+        if (abs(data[i] - rhs.data[i]) > 0) return false;
     }
     return true;
-}
+    }
+    template<>
+    bool Vector<double>::operator==(const Vector<double>& rhs) const
+    {
+        double epsilon = 0.01;
+        if (size != rhs.size) return false;
+        for (size_t i = 0; i < size; i++)
+        {
+            if (abs(data[i] - rhs.data[i]) > epsilon) return false;
+        }
+        return true;
+    }
 
 
 template<class T>
@@ -379,12 +463,16 @@ bool Vector<T>::operator!=(const Vector<T>& rhs) const
 {
     return !(*this == rhs);
 }
+
+
 template<class T>
 Vector<T>& operator*=(const T& value, Vector<T>& rhs)
 {
     rhs *= value;
     return rhs;
 }
+
+
 template<class T>
 Vector<T> operator*(const T& value, const Vector<T>& rhs)
 {
@@ -392,6 +480,9 @@ Vector<T> operator*(const T& value, const Vector<T>& rhs)
     result *= value;
     return result;
 }
+
+
+
 template<class T>
  std::ostream& operator<< (std::ostream& out, const Vector<T>& vector)
 {
@@ -412,58 +503,60 @@ template<class T>
 }
 
 
-//template<class T>
-//double vector_len(const Vector<T>& v) {
-//    double len = 0.0;
-//    for (int i = 0; i < v.GetSize(); i++) {
-//        len += std::pow(v[i], 2);
-//    }
-//    return sqrt(len);
-//}
-//
-//template<class T>
-//T vector_len(const Vector<std::complex<T>>& v) {
-//    T len = 0;
-//    for (int i = 0; i < v.GetSize(); i++) {
-//        len += std::abs(v[i]);
-//    }
-//    return len;
-//}
-//
-//template<class T>
-//T get_square(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2) {
-//
-//    double cos_alfa = multiple (v1,v2) / (vector_len(v1) * vector_len(v2));
-//    double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
-//    double square = vector_len(v1) * vector_len(v2) * sin_alfa / 2;
-//    return square;
-//}
-//
-//template<class T>
-//double get_square(const Vector<T>& v1, const Vector<T>& v2) {
-//    //double scalar_product = v1.DotProduct(v2);
-//    double cos_alfa = (v1)*(v2)/ (double)(vector_len(v1) * vector_len(v2));
-//    double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
-//    double square = vector_len(v1) * vector_len(v2) * sin_alfa / 2;
-//    return square;
-//}
-
-
-
-
-
+template<class T>
+double operator*(const Vector<T>& v1, const Vector<T>& v2) //перегузка для комплексных чисел
+{
+    double result = 0.0;
+    for (int i = 0; i < v1.GetSize(); i++) {
+        result += (double)v1[i] * (double)v2[i];
+    }
+    return result;
+}
 
 template<class T>
-typename std::enable_if<!std::numeric_limits<T>::is_integer, bool>::type
-    almost_equal(T x, T y, int ulp)
+std::complex<T> operator*(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2)
 {
-    // the machine epsilon has to be scaled to the magnitude of the values used
-    // and multiplied by the desired precision in ULPs (units in the last place)
-    return std::fabs(x-y) <= std::numeric_limits<T>::epsilon() * std::fabs(x+y) * ulp
-        // unless the result is subnormal
-        || std::fabs(x-y) < std::numeric_limits<T>::min();
+    std::complex<T> result(0, 0);
+    for (int i = 0; i < v1.GetSize(); i++) {
+        result += std::complex<T>(v1[i].real() * v2[i].real() - v1[i].imag() * v2[i].imag(), v1[i].real() * v2[i].imag() + v1[i].imag() * v2[i].real());
+    }
+    return result;
 }
-//https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
+
+template<class T>
+double mylen(const Vector<T>& v) {
+    double len = 0.0;
+    for (int i = 0; i < v.GetSize(); i++) {
+        len += std::pow(v[i], 2);
+    }
+    return sqrt(len);
+}
+
+template<class T>
+T mylen(const Vector<std::complex<T>>& v) {
+    T len = 0;
+    for (int i = 0; i < v.GetSize(); i++) {
+        len += std::abs(v[i]);
+    }
+    return len;
+}
+
+template<class T>
+T square(const Vector<std::complex<T>>& v1, const Vector<std::complex<T>>& v2) {
+
+    double cos_alfa = DotShape (v1,v2) / (mylen(v1) * mylen(v2));
+    double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
+    double square = mylen(v1) * mylen(v2) * sin_alfa / 2;
+    return square;
+}
+
+template<class T>
+double square(const Vector<T>& v1, const Vector<T>& v2) {
+    double cos_alfa = (v1)*(v2)/ (double)(mylen(v1) * mylen(v2));
+    double sin_alfa = std::sqrt(1 - std::pow(cos_alfa, 2));
+    double square = mylen(v1) * mylen(v2) * sin_alfa / 2;
+    return square;
+}
 
 
 
